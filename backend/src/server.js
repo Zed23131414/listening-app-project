@@ -2,12 +2,20 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const lessonRoutes = require("./routes/lessonRoutes");
+const dotenv = require("dotenv");
+const connectDB = require("./config/database"); // File kết nối MongoDB (xem hướng dẫn bên dưới)
+
+const router = express.Router();
+dotenv.config();
+connectDB();
 
 const app = express();
-const router = express.Router();
-
 app.use(express.json());
 app.use(cors());
+
+// Import và sử dụng các route cho Auth
+const authRoutes = require("./routes/authRoutes");
+app.use("/api/auth", authRoutes);
 // Trả về danh sách bài học Fake
 app.use("/api", lessonRoutes);
 
